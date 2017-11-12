@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from flask import Flask
 import pandas as pd
 # import pyflux as pf
-# import quandl
+import quandl
 import base64
 import os
 import io
@@ -17,16 +17,18 @@ app = Flask(__name__)
 def build_plot():
 
     img = io.BytesIO()
-    # data = quandl.get('LBMA/SILVER', authtoken = 'oTBhHqG_L_3PHuxpLEBW')
+    data = quandl.get('BCHARTS/BITSTAMPUSD', authtoken = 'oTBhHqG_L_3PHuxpLEBW')
     # data = data.fillna(method = 'ffill')
     # model = pf.ARIMA(data = data, ar = 5, integ = 1, ma = 4, target = 'USD', family = pf.Normal())
     # x = model.fit("MLE")
     # model_summary = base64.b64encode( x.summary() ).decode()
 
     # plot1 = model.plot_z(figsize = (15,5))
-    y = [1,2,3,4,5]
-    x = [0,2,1,3,4]
-    plt.plot(x,y)
+    # y = [1,2,3,4,5]
+    # x = [0,2,1,3,4]
+    # plt.plot(x,y)
+
+    plt.plot(data.index, data.Close)
 
     plt.savefig(img, format='png')
     # plot1.savefig(img, format='png')
