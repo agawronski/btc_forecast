@@ -1,0 +1,9 @@
+<!doctype html>
+<title>AG</title>
+<h1>BTC</h1>
+{% if plot_url %}
+  <img src="data:image/png;base64,{{ plot_url }}">
+{% endif %}
+{% if model_summary %}
+  <p> 'Testing {{ model_summary }}' </p>
+{% endif %}
