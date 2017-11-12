@@ -1,9 +1,27 @@
 <!doctype html>
 <title>AG</title>
 <h1>BTC</h1>
+
 {% if plot_url %}
   <img src="data:image/png;base64,{{ plot_url }}">
 {% endif %}
-{% if model_summary %}
-  <p> 'Testing {{ model_summary }}' </p>
+
+{% for line in model_summary2 %}
+    <p>{{ line }}</p>
+{% endfor %}
+
+{% if plot_urls2 %}
+  <img src="data:image/png;base64,{{ plot_urls2 }}">
+{% endif %}
+
+{% if plot_urls3 %}
+  <img src="data:image/png;base64,{{ plot_urls3 }}">
+{% endif %}
+
+{% if plot_urls4 %}
+  <img src="data:image/png;base64,{{ plot_urls4 }}">
+{% endif %}
+
+{% if plot_urls5 %}
+  <img src="data:image/png;base64,{{ plot_urls5 }}">
 {% endif %}
