@@ -80,9 +80,10 @@ def build_plot():
 
     plt.cla()
     img5 = io.BytesIO()
-    plt.plot(pred.Date.astype(str), pred.predictions_final)
-    plt.xticks(rotation = 90)
-    plt.tight_layout()
+    dates2 = matplotlib.dates.date2num(list(pred.Date))
+    plt.plot_date(dates2, pred.predictions_final, '-')
+    # plt.xticks(rotation = 90)
+    # plt.tight_layout()
     plt.savefig(img5, format = 'png')
     plot_urls5 = base64.b64encode(img5.getvalue()).decode()
 
