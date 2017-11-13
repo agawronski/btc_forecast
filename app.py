@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from flask import Flask
 import pandas as pd
 import pyflux as pf
+import numpy as np
 import quandl
 import base64
 import os
@@ -21,7 +22,9 @@ def build_plot():
 
     data = quandl.get('BCHARTS/BITSTAMPUSD', authtoken = 'oTBhHqG_L_3PHuxpLEBW')
     data = data.fillna(method = 'ffill')
-    model = pf.ARIMA(data = data, ar = 5, integ = 1, ma = 4, target = 'Close', family = pf.Normal())
+    data['Close2'] = np.log(data.Close + 0.0001)
+
+    model = pf.ARIMA(data = data, ar = 5, integ = 1, ma = 5, target = 'Close2', family = pf.Normal())
     x = model.fit("MLE")
 
     # model_summary = 'string'
@@ -58,18 +61,19 @@ def build_plot():
 
     pred = model.predict(h = 30).reset_index()
     pred['predictions'] = None
-    pred['predictions'][0] = data.Close.tail(1) + pred.loc[0, 'Differenced Close']
+    pred['predictions'][0] = data.Close2.tail(1) + pred.loc[0, 'Differenced Close2']
     for row in range(1, pred.shape[0]):
         last_val = pred.loc[pred.index == (row - 1), 'predictions'].values
-        current_diff = pred.loc[pred.index == row, 'Differenced Close'].values
+        current_diff = pred.loc[pred.index == row, 'Differenced Close2'].values
         current_val = last_val + current_diff
         pred.loc[pred.index == row, 'predictions'] = last_val + current_diff
 
     pred.predictions = pred.predictions.astype(float)
+    pred['predictions_final'] = np.exp(pred['predictions']) - 0.0001
 
     plt.cla()
     img5 = io.BytesIO()
-    plt.plot(pred.Date.astype(str), pred.predictions)
+    plt.plot(pred.Date.astype(str), pred.predictions_final)
     plt.xticks(rotation = 90)
     plt.tight_layout()
     plt.savefig(img5, format = 'png')
