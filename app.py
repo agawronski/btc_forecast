@@ -46,20 +46,20 @@ def build_plot():
     plt.savefig(img, format = 'png')
     plot_url = base64.b64encode(img.getvalue()).decode()
 
-    img2 = io.BytesIO()
-    model.plot_z(figsize = (8,5))
-    plt.savefig(img2, format = 'png')
-    plot_urls2 = base64.b64encode(img2.getvalue()).decode()
+    # img2 = io.BytesIO()
+    # model.plot_z(figsize = (8,5))
+    # plt.savefig(img2, format = 'png')
+    # plot_urls2 = base64.b64encode(img2.getvalue()).decode()
 
-    img3 = io.BytesIO()
-    model.plot_fit(figsize = (8,5))
-    plt.savefig(img3, format = 'png')
-    plot_urls3 = base64.b64encode(img3.getvalue()).decode()
+    # img3 = io.BytesIO()
+    # model.plot_fit(figsize = (8,5))
+    # plt.savefig(img3, format = 'png')
+    # plot_urls3 = base64.b64encode(img3.getvalue()).decode()
 
-    img4 = io.BytesIO()
-    model.plot_predict_is(h = 50, figsize = (8,5))
-    plt.savefig(img4, format = 'png')
-    plot_urls4 = base64.b64encode(img4.getvalue()).decode()
+    # img4 = io.BytesIO()
+    # model.plot_predict_is(h = 50, figsize = (8,5))
+    # plt.savefig(img4, format = 'png')
+    # plot_urls4 = base64.b64encode(img4.getvalue()).decode()
 
     # img5 = io.BytesIO()
     # model.plot_predict(h = 20, past_values = 20, figsize = (8,5))
@@ -90,9 +90,9 @@ def build_plot():
     return render_template('main_template.html',
                             plot_url = plot_url,
                             model_summary2 = model_summary2,
-                            plot_urls2 = plot_urls2,
-                            plot_urls3 = plot_urls3,
-                            plot_urls4 = plot_urls4,
+                            # plot_urls2 = plot_urls2,
+                            # plot_urls3 = plot_urls3,
+                            # plot_urls4 = plot_urls4,
                             plot_urls5 = plot_urls5)
 
 
