@@ -2,6 +2,7 @@
 from flask import render_template
 import matplotlib
 matplotlib.use("agg")
+from contextlib import redirect_stdout
 import matplotlib.pyplot as plt
 from flask import Flask
 import pandas as pd
@@ -12,22 +13,27 @@ import base64
 import os
 import io
 
-from contextlib import redirect_stdout
+# import random
+# from io import BytesIO
+# # from StringIO import StringIO  # python 2.7x
+#
+# from flask import Flask, make_response
+# from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+# from matplotlib.figure import Figure
+
+
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def build_plot():
-
-
     data = quandl.get('BCHARTS/BITSTAMPUSD', authtoken = 'oTBhHqG_L_3PHuxpLEBW')
     data = data.fillna(method = 'ffill')
     data['Close2'] = np.log(data.Close + 0.0001)
-
     model = pf.ARIMA(data = data, ar = 5, integ = 1, ma = 5, target = 'Close2', family = pf.Normal())
     x = model.fit("MLE")
 
-    # model_summary = 'string'
     f = io.StringIO()
     with redirect_stdout(f):
         x.summary()
@@ -35,7 +41,8 @@ def build_plot():
     model_summary2 = model_summary.split('\n')
 
     img = io.BytesIO()
-    plt.plot(data.index, data.Close)
+    dates = matplotlib.dates.date2num(list(data.index))
+    plt.plot_date(dates, data.Close, '-')
     plt.savefig(img, format = 'png')
     plot_url = base64.b64encode(img.getvalue()).decode()
 
