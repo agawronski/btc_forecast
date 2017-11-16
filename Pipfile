@@ -1,19 +1,25 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
 
 flask = "*"
-matplotlib = "==2.1.0"
+matplotlib = "*"
 gunicorn = "*"
 pandas = "*"
 pyflux = "*"
 quandl = "*"
+numpy = "*"
 
 
 [requires]
+
 python_version = "3.6"
 
+
 [dev-packages]
+
